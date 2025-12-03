@@ -525,40 +525,97 @@ code {
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 1024px) {
-    .top-section {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
 
-    .canvas-container {
-        min-height: 400px;
+/* Large tablets and small laptops (1024px - 1280px) */
+@media (max-width: 1280px) {
+    .container {
+        max-width: 95%;
+        padding: 25px;
     }
 
     .controls {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
     }
 }
 
-@media (max-width: 768px) {
+/* Tablets in landscape and small laptops (768px - 1024px) */
+@media (max-width: 1024px) {
     .container {
         padding: 20px;
+        margin: 0 auto 30px;
+    }
+
+    .top-section {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .canvas-container {
+        min-height: 450px;
+    }
+
+    .controls {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .button-group {
+        grid-column: 1 / -1;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    #graph-canvas {
+        height: 220px;
+    }
+}
+
+/* Tablets in portrait (600px - 768px) */
+@media (max-width: 768px) {
+    .container {
+        padding: 18px;
         border-radius: 12px;
-        box-shadow: none;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
         margin: 0 auto 20px;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
     }
 
     .controls {
         grid-template-columns: 1fr;
+        padding: 15px;
+        gap: 12px;
     }
 
     .algorithm-info {
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px 15px;
+    }
+
+    .status-bar {
+        justify-content: center;
+        border-radius: 12px;
+        font-size: 0.85rem;
+        padding: 10px 15px;
     }
 
     .button-group button {
-        flex: 1 1 100%;
+        flex: 1 1 calc(50% - 6px);
+        min-width: 100px;
+        padding: 9px 14px;
+        font-size: 0.85rem;
+    }
+
+    .canvas-container {
+        min-height: 400px;
     }
 
     input[type="range"] {
@@ -566,25 +623,223 @@ code {
     }
 
     .teaching-section {
-        padding: 20px;
+        padding: 18px;
     }
 
-    .status-bar {
-        justify-content: center;
-        border-radius: 12px;
+    #teaching-content {
+        font-size: 0.9rem;
+    }
+
+    #graph-canvas {
+        height: 200px;
+    }
+
+    .logs-container {
+        max-height: 250px;
+        font-size: 0.8rem;
+    }
+
+    pre {
+        font-size: 0.8rem;
+        padding: 12px;
     }
 }
 
-@media (max-width: 560px) {
-    header h1 {
-        font-size: 1.2rem;
+/* Large phones (480px - 600px) */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 0 auto 15px;
+    }
+
+    .controls {
+        padding: 12px;
+        gap: 10px;
     }
 
     .canvas-container {
-        min-height: 320px;
+        min-height: 350px;
+    }
+
+    .teaching-section {
+        padding: 15px;
+    }
+
+    #teaching-content h3 {
+        font-size: 1.05rem;
+    }
+
+    #teaching-content p {
+        font-size: 0.88rem;
+    }
+
+    .button-group button {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+}
+
+/* Small phones (360px - 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+    header h1 {
+        font-size: 1.1rem;
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+    }
+
+    .controls {
+        padding: 10px;
+        gap: 8px;
+        border-radius: 10px;
+    }
+
+    .control-group label {
+        font-size: 0.75rem;
+    }
+
+    select {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    .algorithm-info {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .algorithm-info .label {
+        font-size: 0.8rem;
+    }
+
+    .algorithm-info #algorithm-name {
+        font-size: 0.9rem;
+    }
+
+    .algorithm-info #algorithm-example {
+        font-size: 0.8rem;
+    }
+
+    .status-bar {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+
+    .button-group {
+        gap: 8px;
+    }
+
+    .button-group button {
+        flex: 1 1 100%;
+        min-width: auto;
+        font-size: 0.85rem;
+        padding: 10px;
+    }
+
+    .canvas-container {
+        min-height: 300px;
+        border-radius: 6px;
+    }
+
+    .animation-panel h3,
+    .code-panel h3 {
+        font-size: 1rem;
+        margin-bottom: 10px;
     }
 
     .graph-container {
+        padding: 10px;
+    }
+
+    .graph-container h4 {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    #graph-canvas {
+        height: 180px;
+    }
+
+    pre {
+        font-size: 0.75rem;
+        padding: 10px;
+        min-height: 150px;
+    }
+
+    .teaching-section {
         padding: 12px;
+        margin-top: 15px;
+    }
+
+    .teaching-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    #teaching-content {
+        font-size: 0.85rem;
+        line-height: 1.6;
+    }
+
+    #teaching-content h3 {
+        font-size: 1rem;
+        margin: 20px 0 12px 0;
+    }
+
+    #teaching-content .example,
+    #teaching-content .key-point {
+        padding: 12px;
+        margin: 12px 0;
+        font-size: 0.83rem;
+    }
+
+    .logs-section h3 {
+        font-size: 1rem;
+    }
+
+    .logs-container {
+        max-height: 220px;
+        padding: 12px;
+        font-size: 0.75rem;
+    }
+
+    .scroll-indicator {
+        padding: 15px;
+    }
+
+    .scroll-indicator p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Extra small phones (< 360px) */
+@media (max-width: 360px) {
+    .container {
+        padding: 10px;
+    }
+
+    header h1 {
+        font-size: 1rem;
+    }
+
+    .canvas-container {
+        min-height: 280px;
+    }
+
+    .button-group button {
+        padding: 9px;
+        font-size: 0.8rem;
+    }
+
+    #teaching-content {
+        font-size: 0.8rem;
+    }
+
+    pre {
+        font-size: 0.7rem;
     }
 }

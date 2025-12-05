@@ -33,74 +33,263 @@ const spaceProfiles = {
 
 const explanationTemplates = {
     'O(1)': {
-        headline: 'Constant Space O(1)',
-        intro: 'Uses a fixed amount of memory regardless of input size.',
+        headline: 'Constant Space O(1) - The Memory Minimalist',
+        intro: 'Imagine you have a task that requires exactly one sticky note, whether you\'re working with 10 items or 10 million items. That sticky note is all the memory you need, no matter what. This is O(1) space - constant memory that never grows.',
         keyPoints: [
-            'Memory usage does not grow with n',
-            'Only uses a few variables or fixed-size buffers',
-            'Most space-efficient complexity class'
+            '📌 **What it means**: You use the exact same amount of memory regardless of input size. If your input has 5 items, you might use 2 variables. If it has 5 million items, you still use those same 2 variables.',
+            '💡 **Why it happens**: You\'re only keeping track of a few things at once - maybe the current item, a counter, or a temporary value. You never store the whole dataset.',
+            '🎯 **Example with numbers**: Processing array [1,2,3,4,5] vs [1,2,...,1000000]. In both cases, you only need space for: current_value, sum_total. That\'s it! Just 2 variables.',
+            '✨ **The magic**: Even though you might LOOK at a million items, you don\'t STORE them all. You process one at a time and throw it away.'
         ],
-        analogy: 'Using one bookmark while reading any size book.',
-        realWorld: ['Iterative binary search', 'Array element access', 'Variable swap'],
-        takeaway: 'O(1) space is the gold standard for memory efficiency.',
-        animation: 'The visualization shows a constant number of blocks/frames.',
-        graph: 'Flat horizontal line at y=1.'
+        analogy: '🔖 **Real-life analogy**: You\'re counting people entering a stadium. You don\'t need to remember each person\'s face - you just keep a running tally on your clicker. Whether 100 or 100,000 people enter, you only need that one clicker (constant memory).',
+        realWorld: [
+            'Swapping two numbers: temp = a; a = b; b = temp → Only 3 variables, always!',
+            'Finding sum of array: Just keep a running total, don\'t store each number',
+            'Checking if array[5] exists: Jump directly to position 5, no extra storage needed',
+            'Reversing array in-place: Swap items from both ends moving inward, no copy needed'
+        ],
+        codeExample: `# O(1) Space - Sum of Array
+def sum_array(arr):
+    total = 0  # Only 1 variable!
+    for num in arr:
+        total += num  # Process & discard
+    return total
+
+# Works same for 5 or 5 million items
+sum_array([1,2,3,4,5])  # Uses: total
+sum_array([1]*1000000)  # Still uses: total
+
+📝 HOW IT WORKS:
+• We create ONE variable 'total' to store the sum
+• Loop through array, adding each number to total
+• Each iteration processes one number then forgets it
+• Array size doesn't matter - we only need 'total'
+
+💾 SPACE COMPLEXITY: O(1)
+• Memory used: 1 variable (total)
+• Input size = 5 → Memory = 1
+• Input size = 1,000,000 → Memory = 1
+• The memory stays constant!`,
+
+        takeaway: '🏆 **Bottom line**: O(1) is the BEST possible space complexity. Your program uses the same tiny amount of memory whether handling a handful or a billion items. Like using one bookmark for any size book!',
+        animation: '🎬 **What you\'re seeing**: The animation shows the same few memory blocks/frames no matter how you change the input slider. Drag it from 1 to 32 - the memory stays flat! That\'s constant space in action.',
+        graph: '📊 **The graph**: Notice the completely flat horizontal line? That\'s the hallmark of O(1). Input size changes along the bottom (x-axis), but memory (y-axis) stays rock solid at 1 unit.'
     },
     'O(log n)': {
-        headline: 'Logarithmic Space O(log n)',
-        intro: 'Memory grows slowly as input doubles.',
+        headline: 'Logarithmic Space O(log n) - The Smart Halver',
+        intro: 'Think about looking up a word in a dictionary. You don\'t check every page - you open to the middle, see if your word comes before or after, then repeat with the remaining half. Each "half" step needs one bookmark to remember where you are. This is O(log n) space.',
         keyPoints: [
-            'Typical for divide-and-conquer recursive algorithms',
-            'Stack depth equals log₂(n)',
-            'Very scalable for large inputs'
+            '📌 **What it means**: Memory grows, but incredibly slowly. The pattern: n=1→1 unit, n=2→2 units, n=4→2 units, n=8→3 units, n=16→4 units, n=32→5 units. See how you need 5x memory for 32x more data? That\'s the magic!',
+            '💡 **The math behind it**: log₂(n) means "how many times can I divide n by 2 until I get to 1?" For n=8: 8→4→2→1 (3 divisions) = 3 units of memory. For n=1024: you only need 10 units!',
+            '🎯 **Concrete example**: Binary search on sorted list [1,2,3,4,5,6,7,8]. You check middle (4), realize you want bigger, check middle of right half (6), realize you want smaller, check 5. That\'s 3 checks = 3 stack frames = log₂(8).',
+            '🔢 **Real numbers**: n=5 → log₂(6)=2.58≈3 blocks. n=10 → log₂(11)=3.46≈3 blocks. n=100 → log₂(101)=6.66≈7 blocks. Notice: 100 items only need 7 memory units!',
+            '✨ **Why recursion creates this**: Each recursive call remembers one decision point. Binary search: "I checked middle, now search left/right." That decision lives on the call stack until the function returns.'
         ],
-        analogy: 'Finding a name in a phone book by halving the pages each time.',
-        realWorld: ['Recursive binary search', 'Balanced BST operations'],
-        takeaway: 'O(log n) space scales extremely well.',
-        animation: 'Stack grows slowly, adding one frame per doubling of n.',
-        graph: 'Gentle logarithmic curve.'
+        analogy: '📚 **Real-life analogy**: Finding a specific page in a 1000-page book. First check page 500 - too far? Check 250. Still too far? Check 125. Each step you only remember YOUR page number, not all previous pages. After ~10 steps (log₂1000≈10), you found it using only 10 bookmarks!',
+        realWorld: [
+            'Recursive binary search: function search(arr, left, right) needs memory for each call → log₂(n) calls total',
+            'Balanced tree traversal: Going from root to leaf in balanced binary search tree → log₂(n) depth',
+            'Binary representation: Storing a number\'s bits requires log₂(n) space (32 bits for 4 billion)',
+            'Merge sort recursion depth: Keeps splitting in half → log₂(n) stack depth (though total space is O(n) due to merging)'
+        ],
+        codeExample: `# O(log n) Space - Binary Search (Recursive)
+def binary_search(arr, target, left, right):
+    if left > right:
+        return -1
+    mid = (left + right) // 2
+    
+    if arr[mid] == target:
+        return mid
+    elif arr[mid] < target:
+        return binary_search(arr, target, mid+1, right)
+    else:
+        return binary_search(arr, target, left, mid-1)
+
+# For array of size 8, max 3 recursive calls
+# For array of size 1024, max 10 recursive calls!
+
+📝 HOW IT WORKS:
+• Check middle element of array
+• If not found, recursively search left OR right half
+• Each recursive call adds 1 stack frame
+• Keeps halving the search space: n → n/2 → n/4 → ...
+
+💾 SPACE COMPLEXITY: O(log n)
+• Each call creates a stack frame with variables
+• n=8: [8] → [4] → [2] → [1] = 3 frames
+• n=1024: Only 10 frames needed!
+• Stack depth = log₂(n) because we halve each time`,
+
+        takeaway: '🏆 **Bottom line**: O(log n) is AMAZING for large data. It\'s almost as good as O(1). Going from 1,000 to 1,000,000 items? You only need ~10 more memory units. That\'s why binary search beats linear search!',
+        animation: '🎬 **What you\'re seeing**: Start with n=2 (2-3 frames). Move slider to n=32 (5-6 frames). You needed 16x more input but only 2-3x more memory! The stack/blocks grow, but SO slowly. Watch closely - each doubling of n only adds 1 frame.',
+        graph: '📊 **The graph**: See that gentle rising curve that flattens as it goes right? That\'s logarithmic growth. At n=32, you\'re barely at 5 units. Compare to the linear line - HUGE difference! The curve hugs the bottom.'
     },
     'O(n)': {
-        headline: 'Linear Space O(n)',
-        intro: 'Memory usage is directly proportional to input size.',
+        headline: 'Linear Space O(n) - The One-to-One Relationship',
+        intro: 'Imagine making a photocopy of a document. If you copy 1 page, you need space for 1 copy. If you copy 100 pages, you need space for 100 copies. The memory grows in perfect lockstep with your input. This is O(n) - linear space.',
         keyPoints: [
-            'Common when storing all input elements',
-            'Each element requires one unit of memory',
-            'Doubling n doubles memory usage'
+            '📌 **What it means**: For every item in your input, you store roughly one item in memory. n items = n memory units. It\'s a direct 1:1 relationship.',
+            '💡 **The formula**: If n=5, you use 5 units. If n=100, you use 100 units. If n=1,000,000, you use 1,000,000 units. Simple and predictable!',
+            '🎯 **Concrete example**: You have array [3, 7, 2, 9, 1] and want to reverse it. You create a new array [1, 9, 2, 7, 3]. Original has 5 items → copy has 5 items → O(n) space.',
+            '🔢 **Real numbers**: n=10 → 10 blocks. n=20 → 20 blocks. n=50 → 50 blocks. Double input = double memory. Triple input = triple memory. The relationship is perfectly linear.',
+            '✨ **Why this happens**: You\'re actually storing each element. Making an array copy? Store all n elements. Building a hash table? Store all n keys. Doing DFS? Stack can grow to n nodes deep.'
         ],
-        analogy: 'Copying a list item-by-item.',
-        realWorld: ['Creating a copy of an array', 'Storing DFS path', 'Hash table with n entries'],
-        takeaway: 'O(n) is acceptable for most practical problems.',
-        animation: 'Blocks/frames increase linearly with n.',
-        graph: 'Straight diagonal line.'
+        analogy: '🎒 **Real-life analogy**: Packing for a trip. If you have 10 shirts, you need 10 shirt-sized spaces in your suitcase. If you have 50 shirts, you need 50 spaces. You can\'t cheat - each item needs its own spot. That\'s linear space.',
+        realWorld: [
+            'Creating array copy: original = [1,2,3,4,5]; copy = original.slice() → Stores all 5 elements in new memory',
+            'Hash table/dictionary: Storing n unique names with phone numbers → Each person needs one entry → n entries',
+            'DFS recursion on linked list: Worst case: list is straight line, stack grows to n calls deep',
+            'Storing results: Processing 1000 numbers, storing all 1000 results in array → O(n) space',
+            'Merge sort merge step: Merging two halves requires temporary array of size n'
+        ],
+        codeExample: `# O(n) Space - Array Copy
+def reverse_array(arr):
+    result = []  # New array
+    for i in range(len(arr)-1, -1, -1):
+        result.append(arr[i])  # Store each element
+    return result  # n elements stored
+
+# n=5 → stores 5 items
+# n=1000 → stores 1000 items
+
+# O(n) Space - Hash Table
+def count_frequency(arr):
+    freq = {}  # Dictionary
+    for num in arr:
+        freq[num] = freq.get(num, 0) + 1
+    return freq  # Up to n unique entries
+
+📝 HOW IT WORKS:
+• Example 1: Create new array 'result'
+• Copy each element from original to new array
+• New array size = original array size = n
+• Example 2: Create dictionary to count occurrences
+• Worst case: all elements unique → n entries
+
+💾 SPACE COMPLEXITY: O(n)
+• reverse_array: Stores n elements in result
+• count_frequency: Stores up to n key-value pairs
+• Input doubles → Memory doubles (1:1 relationship)`,
+
+        takeaway: '🏆 **Bottom line**: O(n) is totally acceptable for most programs! It means you\'re efficiently storing what you need, nothing more. It\'s honest, predictable memory usage. Just be aware: 1 million items = 1 million units of memory.',
+        animation: '🎬 **What you\'re seeing**: Watch the blocks/frames grow in perfect sync with the input slider. n=5 → 5 blocks. n=10 → 10 blocks. n=20 → 20 blocks. It\'s like watching a line of dominoes get longer - each new input adds exactly one block.',
+        graph: '📊 **The graph**: That perfect diagonal line from bottom-left to top-right? That\'s linear growth. Every step right on the x-axis (more input) causes the same step up on the y-axis (more memory). It\'s the most honest, straightforward relationship.'
     },
     'O(n log n)': {
-        headline: 'Linearithmic Space O(n log n)',
-        intro: 'Combines linear storage with logarithmic depth.',
+        headline: 'Linearithmic Space O(n log n) - The Multiply Effect',
+        intro: 'Imagine organizing a tournament. You need space for all n players (that\'s the n part), AND you need paperwork for each of the log n rounds (that\'s the log n part). Multiply them together: n × log n. This shows up when algorithms need linear space at every level of logarithmic depth.',
         keyPoints: [
-            'Appears in divide-and-conquer algorithms',
-            'Needs O(n) space at each of O(log n) levels',
-            'More memory than O(n) but still manageable'
+            '📌 **What it means**: You need O(n) space, but at O(log n) different levels or stages. Total = n × log₂(n). It\'s worse than O(n) but WAY better than O(n²).',
+            '💡 **The math**: n=8 → 8 × log₂(8) = 8 × 3 = 24 units. n=16 → 16 × log₂(16) = 16 × 4 = 64 units. n=32 → 32 × 5 = 160 units. Growing faster than n, slower than n².',
+            '🎯 **Merge sort example**: Merge sort splits array into halves log₂(n) times. At EACH level, you merge n total elements using temporary arrays. Level 1: merge 2 arrays of n/2. Level 2: merge 4 arrays of n/4. Total per level: n. Levels: log n. Space: n × log n.',
+            '🔢 **Real numbers**: n=10 → 10×3.32=33 units. n=100 → 100×6.64=664 units. n=1000 → 1000×9.97=9970 units. Notice: it\'s higher than n but not squared.',
+            '✨ **When you see it**: Divide-and-conquer algorithms that need extra space at every recursion level. Each level does O(n) work and keeps O(n) data, and there are log n levels.'
         ],
-        analogy: 'Tournament bracket needing space for all players plus rounds.',
-        realWorld: ['Merge sort with auxiliary arrays', 'Certain recursive tree algorithms'],
-        takeaway: 'Common trade-off for faster sorting.',
-        animation: 'Memory grows faster than linear.',
-        graph: 'Upward curve, steeper than linear.'
+        analogy: '🏆 **Real-life analogy**: Running a single-elimination tournament with 16 teams. Round 1: 8 games (need 8 playing fields). Round 2: 4 games. Round 3: 2 games. Round 4: 1 game. Total fields across all rounds: 8+4+2+1=15. That\'s n/2 × log₂(n) - similar pattern!',
+        realWorld: [
+            'Merge sort (with auxiliary arrays): Each merge operation creates temporary array of size n, happens at log n levels',
+            'Building balanced tree with node copies: At each level (log n levels), you might create O(n) nodes',
+            'Certain recursive tree algorithms: When each recursion level needs to store all n elements temporarily',
+            'Advanced divide-and-conquer: Algorithms that partition data and need to store partitions at each level'
+        ],
+        codeExample: `# O(n log n) Space - Merge Sort (naive version)
+def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])   # Creates copy
+    right = merge_sort(arr[mid:])  # Creates copy
+    
+    # Merge creates another copy
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result  # Each level copies n elements, log n levels
+
+📝 HOW IT WORKS:
+• Split array in half recursively (log n splits)
+• Each split creates new array copies with arr[:mid]
+• Merge creates another temporary array 'result'
+• All sub-arrays at each level total to n elements
+• Tree has log₂(n) levels of recursion
+
+💾 SPACE COMPLEXITY: O(n log n)
+• Level 1: 1 array of n elements = n space
+• Level 2: 2 arrays of n/2 each = n space
+• Level 3: 4 arrays of n/4 each = n space
+• log₂(n) levels × n space per level = n log n
+• n=8 → 8×3=24 units, n=16 → 16×4=64 units`,
+
+        takeaway: '🏆 **Bottom line**: O(n log n) space is the trade-off for O(n log n) time algorithms like merge sort. You\'re paying memory to get fast sorting. It\'s manageable for reasonable input sizes but can get hefty for massive datasets.',
+        animation: '🎬 **What you\'re seeing**: The blocks/frames grow noticeably faster than linear. n=5→about 12 blocks. n=10→about 33 blocks. n=20→about 86 blocks. Each input doubling multiplies memory by more than 2, but less than 4. It\'s that "multiply effect."',
+        graph: '📊 **The graph**: See how the curve rises faster than the straight diagonal line (that\'s O(n))? But it\'s not as steep as the parabola (that\'s O(n²)). It gracefully curves upward - growing steadily but not explosively.'
     },
     'O(n²)': {
-        headline: 'Quadratic Space O(n²)',
-        intro: 'Memory usage grows with the square of input size.',
+        headline: 'Quadratic Space O(n²) - The Explosion Danger',
+        intro: 'Think about creating a friendship matrix for a group. If you have 10 people, you need a 10×10 grid to show who knows whom - that\'s 100 cells. For 100 people? 100×100 = 10,000 cells! The memory explodes quadratically. This is O(n²) space - and it gets scary fast.',
         keyPoints: [
-            'Typical for 2D grids and matrices',
-            'Doubling n quadruples memory',
-            'Only practical for small inputs'
+            '📌 **What it means**: Memory grows with the SQUARE of input size. n=10 → 100 units. n=100 → 10,000 units. n=1000 → 1,000,000 units. Notice the explosion!',
+            '💡 **The formula**: n² or (n×n)/4. If n=5: 5×5=25 units. If n=20: 20×20=400 units. If n=50: 50×50=2,500 units. Even small increases in n cause HUGE memory jumps.',
+            '🎯 **Concrete example**: Storing distances between n cities. City A to B, A to C, B to C, etc. 5 cities = 5×5 = 25 cells. 100 cities = 100×100 = 10,000 cells! You need a cell for every pair.',
+            '🔢 **Real numbers**: n=10 → 100 blocks (still ok). n=20 → 400 blocks (getting heavy). n=50 → 2,500 blocks (uh oh). n=100 → 10,000 blocks (system crash). See how fast it grows?',
+            '⚠️ **Warning signs**: Whenever you see nested data structures (matrix, 2D array, storing all pairs), suspect O(n²). 2D dynamic programming tables, adjacency matrices, pair-wise comparison storage.',
+            '✨ **Why it\'s dangerous**: Modern computers might have gigabytes of RAM, but n²  grows so fast it doesn\'t matter. n=10,000 → 100,000,000 units = 100 million cells. That\'s why you avoid this when possible!'
         ],
-        analogy: 'Multiplication table where 10 numbers need 100 cells.',
-        realWorld: ['Graph adjacency matrix', '2D dynamic programming table'],
-        takeaway: 'Avoid O(n²) space for large datasets.',
-        animation: 'Blocks explode quickly as n increases.',
-        graph: 'Steep parabolic curve.'
+        analogy: '📐 **Real-life analogy**: Seating chart for a wedding. If you have 10 guests, you need to figure out 10×10=100 possible seat pairings to avoid conflicts. For 100 guests? 10,000 pairings to consider! The number of "relationships" grows quadratically with people.',
+        realWorld: [
+            '🗺️ **Graph adjacency matrix**: Storing connections between n nodes → n×n matrix. 1000 nodes = 1 million cells!',
+            '📊 **2D Dynamic Programming**: Classic DP table[i][j] for string matching, etc. Comparing 2 strings of length n → n² table',
+            '🔗 **All pairs shortest path**: Storing distance from every node to every other node → n² space',
+            '🎯 **Storing all possible pairs**: If you need to store every combination of n items → n² storage',
+            '🧮 **Multiplication table**: n×n table literally stores n² values'
+        ],
+        codeExample: `# O(n²) Space - Adjacency Matrix
+def create_graph(n):
+    # Create n×n matrix
+    graph = [[0 for _ in range(n)] for _ in range(n)]
+    return graph  # Stores n² cells
+
+# n=5 → 25 cells
+# n=100 → 10,000 cells!
+
+# O(n²) Space - DP Table
+def longest_common_subsequence(s1, s2):
+    m, n = len(s1), len(s2)
+    dp = [[0]*(n+1) for _ in range(m+1)]
+    
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            if s1[i-1] == s2[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+    return dp[m][n]
+
+📝 HOW IT WORKS:
+• Adjacency matrix: n×n grid to store connections
+• Each row represents one node, each column another
+• DP table: (m+1)×(n+1) grid for string comparison
+• Each cell stores optimal solution for subproblem
+• Need to store ALL pairs/combinations
+
+💾 SPACE COMPLEXITY: O(n²)
+• Graph: n nodes × n nodes = n² cells
+• DP: m×n table (if m=n, then n²)
+• n=10 → 100 cells (ok)
+• n=100 → 10,000 cells (heavy)
+• n=1000 → 1,000,000 cells (danger!)`,
+        takeaway: '🏆 **Bottom line**: O(n²) space is DANGEROUS. Only use it for small inputs (n < 1000). For large datasets, this will crash your program. Always look for O(n) or O(n log n) alternatives. Quadratic space is the red flag of memory usage!',
+        animation: '🎬 **What you\'re seeing**: Watch the explosion! n=5 → about 6 blocks. n=10 → about 25 blocks. n=15 → about 56 blocks. n=20 → 100 blocks! Each small increase causes a massive jump. The blocks flood the screen rapidly.',
+        graph: '📊 **The graph**: See that aggressive upward curve that shoots toward the sky? That\'s the parabola of doom. At n=32, you\'re already at 256 units while linear is only at 32. The gap widens exponentially. The curve warns: "Danger ahead!"'
     }
 };
 
@@ -827,6 +1016,7 @@ function updateExplanation() {
         <ul>${tpl.keyPoints.map(k => `<li>${k}</li>`).join('')}</ul>
         <div class="analogy"><strong>💡 Analogy:</strong> ${tpl.analogy}</div>
         <div class="real-world"><strong>🌍 Examples:</strong> ${tpl.realWorld.join(', ')}</div>
+        ${tpl.codeExample ? `<div class="code-example"><strong>💻 Python Example:</strong><pre><code>${tpl.codeExample}</code></pre></div>` : ''}
         <p><strong>Takeaway:</strong> ${tpl.takeaway}</p>
     </div>`;
 

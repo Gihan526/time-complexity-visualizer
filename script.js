@@ -165,7 +165,15 @@ const explanationTemplates = {
             'If lst = [10, 20, 30] → 2 steps',
             'If lst has 1,000,000 items → still 2 steps'
         ],
-        conclusion: '✅ O(1) → Constant time'
+        conclusion: '✅ O(1) → Constant time',
+        intro: 'Constant time means the computer jumps straight to the answer without scanning other items. Think of grabbing book #5 directly from a labeled shelf.',
+        animation: 'Only a single box flashes. Even if you drag the input slider, the highlighted cell never multiplies because we only peek once.',
+        graph: 'The plot is a flat line: no matter how far you move along the n-axis, the time axis stays level.',
+        realWorld: [
+            'Reading array[index] when you already know the index',
+            'Checking the top value on a stack',
+            'Looking up a dictionary key that hashes directly'
+        ]
     },
     'O(log n)': {
         title: 'Behind the scenes:',
@@ -175,7 +183,15 @@ const explanationTemplates = {
             'If lst = [1..100] → ~6-7 steps (log₂100)',
             'If lst has 1,000,000 items → ~20 steps (log₂1,000,000)'
         ],
-        conclusion: '✅ O(log n) → Logarithmic time'
+        conclusion: '✅ O(log n) → Logarithmic time',
+        intro: 'Logarithmic time means we repeatedly cut the problem in half. Each question about the middle shrinks the search space dramatically.',
+        animation: 'Notice how the active window keeps narrowing while most boxes fade out. Only a handful of checks are needed even for huge n.',
+        graph: 'The curve climbs slowly and flattens fast. Doubling n just nudges the point slightly upward.',
+        realWorld: [
+            'Binary search in a sorted contact list',
+            'Guess-the-number games using higher/lower hints',
+            'Finding words in a dictionary by opening near the middle'
+        ]
     },
     'O(n)': {
         title: 'Behind the scenes:',
@@ -185,7 +201,15 @@ const explanationTemplates = {
             'If lst = [1..100] → 100 steps',
             'If lst has 1,000,000 items → 1,000,000 steps'
         ],
-        conclusion: '✅ O(n) → Linear time'
+        conclusion: '✅ O(n) → Linear time',
+        intro: 'Linear time touches everything once. Double the items and you double the work—no surprises.',
+        animation: 'Each box lights up one after another so the highlighted region marches across the entire row.',
+        graph: 'The line is a steady diagonal. When n doubles, the point on the graph lands roughly twice as high.',
+        realWorld: [
+            'Looping through a list to find a maximum',
+            'Streaming every log line and printing it',
+            'Validating every field in a form'
+        ]
     },
     'O(n²)': {
         title: 'Behind the scenes:',
@@ -195,7 +219,15 @@ const explanationTemplates = {
             'If lst = [1..100] → 100×100 = 10,000 steps',
             'If lst has 1,000 items → 1,000×1,000 = 1,000,000 steps'
         ],
-        conclusion: '✅ O(n²) → Quadratic time'
+        conclusion: '✅ O(n²) → Quadratic time',
+        intro: 'Quadratic time means “for every element, do something with every element.” Work explodes because loops are nested.',
+        animation: 'You can watch entire rows fill up before moving down. That is the outer loop (rows) combined with the inner loop (columns).',
+        graph: 'The curve bends upward sharply. Doubling n causes the y-value to quadruple, so the graph shoots skyward.',
+        realWorld: [
+            'Comparing every student with every other to detect duplicates',
+            'Bubble sort swapping pairs repeatedly',
+            'Building an n × n multiplication table'
+        ]
     },
     'O(2ⁿ)': {
         title: 'Behind the scenes:',
@@ -205,7 +237,15 @@ const explanationTemplates = {
             'If n = 10 → 2¹⁰ = 1,024 steps',
             'If n = 20 → 2²⁰ = 1,048,576 steps'
         ],
-        conclusion: '✅ O(2ⁿ) → Exponential time'
+        conclusion: '✅ O(2ⁿ) → Exponential time',
+        intro: 'Exponential time doubles the work for every +1 increase in n. Recursion trees branch wildly.',
+        animation: 'The Fibonacci tree keeps splitting into two children until the canvas is dense with nodes.',
+        graph: 'The graph hugs the bottom at first then rockets straight up—an “elbow” shape that warns us growth is explosive.',
+        realWorld: [
+            'Naive Fibonacci recursion',
+            'Generating all subsets of a set',
+            'Brute-force cracking of a password by trying every combination'
+        ]
     }
 };
 
@@ -993,44 +1033,67 @@ function showExplanation() {
     const template = explanationTemplates[state.complexity];
     if (!template) return;
 
-    let html = `<h4>${template.title}</h4>`;
-
-    // Generate step list
-    html += '<div class="step-list">';
-
+    const stepItems = [];
     if (template.steps === 'dynamic') {
-        // Show actual steps based on what was executed
         const maxStepsToShow = 10;
         const actualSteps = state.steps.slice(0, maxStepsToShow);
-        actualSteps.forEach(step => {
-            html += `${step.log}<br>`;
+        actualSteps.forEach((step, idx) => {
+            stepItems.push(`<div class="step-item"><strong>#${idx + 1}</strong> ${step.log}</div>`);
         });
         if (state.steps.length > maxStepsToShow) {
-            html += `<em>... and ${state.steps.length - maxStepsToShow} more steps</em><br>`;
+            stepItems.push(`<div class="step-item"><em>... and ${state.steps.length - maxStepsToShow} more steps</em></div>`);
         }
-    } else {
-        // Use template steps
-        template.steps.forEach(step => {
-            // Replace placeholders
+    } else if (Array.isArray(template.steps)) {
+        template.steps.forEach((step, idx) => {
             let stepText = step;
             if (state.steps[0] && state.steps[0].index !== undefined) {
                 stepText = stepText.replace('{index}', state.steps[0].index);
             }
-            html += `${stepText}<br>`;
+            stepItems.push(`<div class="step-item"><strong>#${idx + 1}</strong> ${stepText}</div>`);
         });
     }
 
-    html += '</div>';
+    const examplesHtml = (template.examples || []).map(example => `<div class="example-item">${example}</div>`).join('');
+    const realWorldHtml = (template.realWorld || []).map(item => `<li>${item}</li>`).join('');
+    const stepsHtml = stepItems.length ? stepItems.join('') : '<p>No steps recorded yet.</p>';
 
-    // Add examples
-    html += '<div class="examples">';
-    template.examples.forEach(example => {
-        html += `${example}<br>`;
-    });
-    html += '</div>';
+    let html = '';
+    html += `
+        <div class="explanation-intro">
+            <h3>Big-O in Plain English</h3>
+            <p>${template.intro}</p>
+            <p class="animation-note">🎞️ Animation: ${template.animation}</p>
+            <p class="graph-note">📈 Graph: ${template.graph}</p>
+        </div>
+    `;
 
-    // Add conclusion
-    html += `<div class="conclusion">${template.conclusion}</div>`;
+    html += `
+        <div class="explanation-section">
+            <h4>${template.title}</h4>
+            <div class="step-list">${stepsHtml}</div>
+        </div>
+    `;
+
+    html += `
+        <div class="explanation-section">
+            <h4>Number patterns</h4>
+            <div class="examples">${examplesHtml}</div>
+        </div>
+    `;
+
+    html += `
+        <div class="explanation-section">
+            <h4>Real-world parallels</h4>
+            <ul class="real-world-list">${realWorldHtml || '<li>Think about similar everyday tasks.</li>'}</ul>
+        </div>
+    `;
+
+    html += `
+        <div class="explanation-section">
+            <h4>Key takeaway</h4>
+            <div class="conclusion">${template.conclusion}</div>
+        </div>
+    `;
 
     explanationContent.innerHTML = html;
     explanationContainer.classList.add('visible');

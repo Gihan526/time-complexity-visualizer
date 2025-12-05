@@ -8,117 +8,66 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div class="container">
-        <header>
-            <h1>Time Complexity Visualizer</h1>
-            <p class="subtitle">👇 Scroll down to learn how this algorithm works 👇</p>
+<body class="home-body">
+    <div class="home-container">
+        <header class="home-hero">
+            <p class="tag">Interactive CS Lab</p>
+            <h1>Explore Time & Space Complexity Visually</h1>
+            <p class="lead">Choose the concept you want to master. Watch algorithms come alive with smooth animations, beginner-friendly explanations, and interactive controls.</p>
+            <div class="hero-actions">
+                <a class="hero-btn primary" href="time.html">Launch Time Complexity</a>
+                <a class="hero-btn secondary" href="space.html">Explore Space Complexity</a>
+            </div>
         </header>
 
-        <div class="controls">
-            <div class="control-group">
-                <label for="complexity-select">Complexity</label>
-                <select id="complexity-select">
-                    <option value="O(1)">O(1) - Constant</option>
-                    <option value="O(log n)">O(log n) - Logarithmic</option>
-                    <option value="O(n)">O(n) - Linear</option>
-                    <option value="O(n²)">O(n²) - Quadratic</option>
-                    <option value="O(2ⁿ)">O(2ⁿ) - Exponential</option>
-                </select>
-            </div>
+        <section class="mode-grid">
+            <article class="mode-card">
+                <div class="mode-card-tag">Runtime Focus</div>
+                <h2>Time Complexity Visualizer</h2>
+                <p>Simulate O(1) through O(2ⁿ) algorithms, track execution steps, and see graphs update in real time. Perfect for understanding runtime growth.</p>
+                <ul>
+                    <li>Interactive algorithm animations</li>
+                    <li>Code highlighting for multiple languages</li>
+                    <li>Detailed teaching notes + logs</li>
+                </ul>
+                <a class="hero-btn primary" href="time.html">Start Time Journey →</a>
+            </article>
 
-            <div class="control-group">
-                <label for="language-select">Language</label>
-                <select id="language-select">
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="Python">Python</option>
-                    <option value="Java">Java</option>
-                    <option value="C++">C++</option>
-                    <option value="C#">C#</option>
-                    <option value="Go">Go</option>
-                    <option value="Rust">Rust</option>
-                    <option value="TypeScript">TypeScript</option>
-                </select>
-            </div>
+            <article class="mode-card">
+                <div class="mode-card-tag">Memory Focus</div>
+                <h2>Space Complexity Visualizer</h2>
+                <p>See how memory usage grows for stacks, recursion, and data structures. Build intuition for O(1) → O(n²) space patterns with live diagrams.</p>
+                <ul>
+                    <li>Call stack & heap animations</li>
+                    <li>Memory vs input graphs</li>
+                    <li>Beginner-friendly walkthroughs</li>
+                </ul>
+                <a class="hero-btn secondary" href="space.html">Dive into Space →</a>
+            </article>
+        </section>
 
-            <div class="control-group">
-                <label for="n-slider">Input Size (n): <span id="n-display">10</span></label>
-                <input type="range" id="n-slider" min="1" max="21" value="10">
-            </div>
-
-            <div class="control-group">
-                <label for="speed-slider">Speed</label>
-                <input type="range" id="speed-slider" min="1" max="100" value="50">
-            </div>
-
-            <div class="button-group">
-                <button id="btn-play">▶ Play</button>
-                <button id="btn-pause">⏸ Pause</button>
-                <button id="btn-step">⏩ Step</button>
-                <button id="btn-reset">⟲ Reset</button>
-            </div>
-        </div>
-
-        <div class="status-bar">
-            <span>Steps: <span id="step-counter">0</span> / <span id="total-steps">-</span></span>
-        </div>
-
-        <div class="algorithm-info">
-            <span class="label">Algorithm:</span>
-            <div class="details">
-                <strong id="algorithm-name">Direct access</strong>
-                <span id="algorithm-example">array[index]</span>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <!-- Animation and Code Side by Side -->
-            <div class="top-section">
-                <div class="animation-panel">
-                    <h3>Algorithm Visualization</h3>
-                    <div class="canvas-container">
-                        <canvas id="visualizer-canvas"></canvas>
-                    </div>
+        <section class="home-features">
+            <h3>Why this playground?</h3>
+            <div class="feature-grid">
+                <div class="feature">
+                    <h4>📚 Built for learners</h4>
+                    <p>Step-by-step storytelling explains not just what happens, but <em>why</em>. Great for students, interview prep, and self-taught devs.</p>
                 </div>
-
-                <div class="code-panel">
-                    <h3>Code Execution</h3>
-                    <pre id="code-display"><code id="code-content"></code></pre>
-                    <div class="graph-container">
-                        <h4><span class="highlight-text">Time</span> vs <span class="highlight-text">Input Size</span> Animation</h4>
-                        <canvas id="graph-canvas"></canvas>
-                    </div>
+                <div class="feature">
+                    <h4>🎨 Minimal yet bold</h4>
+                    <p>Monochrome palette keeps focus on the math while subtle animations add delight. Works beautifully on desktop, tablet, or phone.</p>
+                </div>
+                <div class="feature">
+                    <h4>⚙️ Powered by canvas</h4>
+                    <p>Every visualization is drawn on HTML canvas for smooth rendering, making complex ideas easier to grasp.</p>
                 </div>
             </div>
+        </section>
 
-            <!-- Teaching Section -->
-            <div class="teaching-section" id="teaching-section">
-                <h2>What You're Learning</h2>
-                <div id="teaching-content">
-                    <!-- Teaching content will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Logs Section -->
-            <div class="logs-section">
-                <h3>Step-by-Step Execution</h3>
-                <div class="logs-container">
-                    <div id="logs">
-                        <!-- Logs will appear here -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Behind the Scenes -->
-            <div class="explanation-container" id="explanation-container">
-                <div id="explanation-content">
-                    <!-- Behind the scenes explanation will appear here -->
-                </div>
-            </div>
-        </div>
+        <footer class="home-footer">
+            <p>Built for curious minds · <a href="time.html">Time Visualizer</a> · <a href="space.html">Space Visualizer</a></p>
+        </footer>
     </div>
-
-    <script src="script.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Complexity Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="page-header">
+            <a class="back-link" href="index.html">← Back to home</a>
+            <h1>Space Complexity Visualizer</h1>
+            <p class="subtitle">Understand how memory usage grows with input size, recursion depth, and data structures.</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="space-complexity">Complexity</label>
+                <select id="space-complexity">
+                    <option value="O(1)">O(1) - Constant</option>
+                    <option value="O(log n)">O(log n) - Logarithmic</option>
+                    <option value="O(n)">O(n) - Linear</option>
+                    <option value="O(n log n)">O(n log n) - Linearithmic</option>
+                    <option value="O(n²)">O(n²) - Quadratic</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="mode-select">Visualization Mode</label>
+                <select id="mode-select">
+                    <option value="stack">Call Stack</option>
+                    <option value="data">Data Blocks</option>
+                    <option value="tree">Recursive Tree</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <label for="space-n-slider">Input Size (n): <span id="space-n-display">16</span></label>
+                <input type="range" id="space-n-slider" min="1" max="32" value="16">
+            </div>
+
+            <div class="control-group">
+                <label for="depth-slider">Stack Depth: <span id="depth-display">5</span></label>
+                <input type="range" id="depth-slider" min="1" max="12" value="5">
+            </div>
+
+            <div class="button-group">
+                <button id="space-btn-play">▶ Play</button>
+                <button id="space-btn-pause">⏸ Pause</button>
+                <button id="space-btn-step">⏩ Step</button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span>Memory Footprint: <span id="memory-footprint">--</span></span>
+        </div>
+
+        <div class="algorithm-info">
+            <span class="label">Scenario:</span>
+            <div class="details">
+                <strong id="space-algorithm-name">Constant lookup</strong>
+                <span id="space-algorithm-example">Fixed-size buffer</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="top-section">
+                <div class="animation-panel">
+                    <h3>Memory Visualization</h3>
+                    <div class="canvas-container">
+                        <canvas id="space-visualizer"></canvas>
+                    </div>
+                </div>
+
+                <div class="code-panel">
+                    <h3>Memory Breakdown</h3>
+                    <pre id="space-breakdown"><code id="space-breakdown-content"></code></pre>
+                    <div class="graph-container">
+                        <h4><span class="highlight-text">Memory</span> vs <span class="highlight-text">Input Size</span></h4>
+                        <canvas id="space-graph"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="teaching-section" id="space-teaching-section">
+                <h2>What You're Learning</h2>
+                <div id="space-teaching-content"></div>
+            </div>
+
+            <div class="logs-section">
+                <h3>Memory Insights</h3>
+                <div class="logs-container">
+                    <div id="space-logs"></div>
+                </div>
+            </div>
+
+            <div class="explanation-container" id="space-explanation-container">
+                <div id="space-explanation-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="space.js"></script>
+</body>
+
+</html>
